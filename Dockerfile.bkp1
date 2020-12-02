@@ -1,0 +1,22 @@
+FROM ruby:2.3.1
+RUN apt-get update -qq && apt-get install -y nodejs mariadb-client 
+
+#Cache bundle install
+WORKDIR /tmp
+ADD ./Gemfile Gemfile
+ADD ./Gemfile.lock Gemfile.lock
+RUN gem install bundler -v 1.13.6
+RUN bundle install
+
+ENV APP_ROOT /app
+RUN mkdir -p $APP_ROOT
+WORKDIR $APP_ROOT
+COPY . $APP_ROOT
+
+RUN rm -rf tmp
+RUN mkdir /tmp/rails-app
+RUN ln -s /tmp/rails-app tmp
+RUN rake assets:precompile
+
+EXPOSE  3000
+CMD rm -f tmp/pids/server.pid && rails s -b '0.0.0.0'
