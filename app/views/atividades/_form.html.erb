@@ -3,7 +3,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :descricao %>
+    	<%= f.input :descricao %>
 		<%= f.label :modalidade %>
 		<br/>
 		<%= f.select :modalidade_id, options_for_select(Modalidade.all.map{|m|[m.titulo, m.id]},f.object.modalidade_id) %>
@@ -26,9 +26,9 @@
     	<%= f.input :horas_jul , disabled: false ,:input_html => {:style => "width: 100px;"}%>
 		<% end %>	
     
-  	<p>
-    	<label>Anexo:</label>
-			<%= link_to @atividade.anexo, '/ativ/'+@atividade.anexo_url, class: "glyphicon glyphicon-paperclip", target: '_blank'  if @atividade.anexo? %>
+  		<p>
+    		<label>Anexo:</label>
+			<%= link_to @atividade.anexo, @atividade.anexo_url, class: "glyphicon glyphicon-paperclip", target: '_blank'  if @atividade.anexo? %>
 			<%= f.file_field :anexo, label: 'Anexo' , input_html: {accept: ('application/pdf') } %>
 			<%= f.hidden_field :anexo_cache %>
 		</p>
